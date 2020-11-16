@@ -1,33 +1,35 @@
 package com.recca.flames.random.sources.javarandomgenerator;
 
-import com.recca.flames.random.sources.commons.RandomService;
+import com.recca.flames.random.sources.commons.GenerateRandomService;
+import com.recca.flames.random.sources.commons.Range;
+import com.recca.flames.random.sources.javarandomgenerator.configuration.SecureRandomProperties;
 import com.recca.flames.random.sources.javarandomgenerator.exceptions.SecureRandomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-public class SecureRandomService implements RandomService<Integer> {
+public class SecureRandomService implements GenerateRandomService<Integer> {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecureRandomService.class);
 
-    private final SecureRandom random = SecureRandom.getInstanceStrong();
-    @Value("${range.random.min}")
-    private Integer min;
-    @Value("${range.random.max}")
-    private Integer max;
+    private final SecureRandom random;
+    private final SecureRandomProperties properties;
 
-    public SecureRandomService() throws NoSuchAlgorithmException {
-    }
-
-    SecureRandomService(Integer min, Integer max) throws NoSuchAlgorithmException {
-        this.min = min;
-        this.max = max;
+    public SecureRandomService(SecureRandomProperties secureRandomProperties) {
+        try {
+            random = SecureRandom.getInstanceStrong();
+        } catch (NoSuchAlgorithmException e) {
+            throw new SecureRandomException(e.getMessage());
+        }
+        this.properties = secureRandomProperties;
     }
 
     @Override
     public Integer randomize() {
+        final Range range = properties.getRange();
+        final Integer min = range.getMin();
+        final Integer max = range.getMax();
         LOGGER.debug("Get random integer from java.util.SecureRandom in range {} - {}", min, max);
         try {
             return this.random.ints(min, max)

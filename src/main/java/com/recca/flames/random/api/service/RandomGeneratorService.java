@@ -1,6 +1,6 @@
 package com.recca.flames.random.api.service;
 
-import com.recca.flames.random.sources.commons.RandomService;
+import com.recca.flames.random.sources.commons.GenerateRandomService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,10 @@ import java.util.stream.Collectors;
 public class RandomGeneratorService implements IRandomGeneratorService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RandomGeneratorService.class);
 
-    private final List<RandomService<?>> randomServices;
+    private final List<GenerateRandomService<?>> randomServices;
 
     @Autowired(required = false)
-    public RandomGeneratorService(List<RandomService<?>> randomServices) {
+    RandomGeneratorService(List<GenerateRandomService<?>> randomServices) {
         this.randomServices = randomServices;
     }
 
@@ -31,7 +31,7 @@ public class RandomGeneratorService implements IRandomGeneratorService {
 
     private List<Object> getValues() {
         return randomServices.stream()
-                .map(RandomService::randomize)
+                .map(GenerateRandomService::randomize)
                 .collect(Collectors.toList());
     }
 }
