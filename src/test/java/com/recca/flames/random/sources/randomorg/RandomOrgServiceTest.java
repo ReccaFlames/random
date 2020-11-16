@@ -1,6 +1,7 @@
 package com.recca.flames.random.sources.randomorg;
 
 import com.googlecode.jsonrpc4j.JsonRpcClientException;
+import com.recca.flames.random.sources.commons.RandomValue;
 import com.recca.flames.random.sources.commons.Range;
 import com.recca.flames.random.sources.randomorg.client.RandomOrgApi;
 import com.recca.flames.random.sources.randomorg.configuration.RandomOrgProperties;
@@ -54,10 +55,10 @@ class RandomOrgServiceTest {
         given(random.getData()).willReturn(Collections.singletonList(1899));
 
         //when
-        final int randomInteger = service.randomize();
+        final RandomValue result = service.randomize();
 
         //then
-        assertThat(randomInteger).isEqualTo(1899);
+        assertThat(result.getValue()).isEqualTo(1899);
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.recca.flames.random.sources.randomorg;
 
 import com.googlecode.jsonrpc4j.JsonRpcClientException;
 import com.recca.flames.random.sources.commons.GenerateRandomService;
+import com.recca.flames.random.sources.commons.RandomValue;
 import com.recca.flames.random.sources.commons.Range;
 import com.recca.flames.random.sources.randomorg.client.RandomOrgApi;
 import com.recca.flames.random.sources.randomorg.configuration.RandomOrgProperties;
@@ -12,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
-public class RandomOrgService implements GenerateRandomService<Integer> {
+public class RandomOrgService implements GenerateRandomService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RandomOrgService.class);
 
     private final RandomOrgProperties properties;
@@ -24,7 +25,7 @@ public class RandomOrgService implements GenerateRandomService<Integer> {
     }
 
     @Override
-    public Integer randomize() {
+    public RandomValue randomize() {
         final String apiKey = properties.getApiKey();
         final Range range = properties.getRange();
         final Integer min = range.getMin();
@@ -32,7 +33,8 @@ public class RandomOrgService implements GenerateRandomService<Integer> {
         LOGGER.debug("Get random integer from Random.org basic API in range {} - {}", min, max);
         try {
             final GetIntegersResponse getIntegersResponse = randomOrgApi.generateIntegers(UUID.fromString(apiKey), 1, min, max);
-            return getIntegersResponse.getRandom().getData().get(0);
+            final Integer value = getIntegersResponse.getRandom().getData().get(0);
+            return new RandomValue(value);
         } catch (JsonRpcClientException exception) {
             throw new RandomOrgApiException(exception.getMessage());
         }

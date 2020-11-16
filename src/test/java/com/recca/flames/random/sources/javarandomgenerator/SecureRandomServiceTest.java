@@ -1,5 +1,6 @@
 package com.recca.flames.random.sources.javarandomgenerator;
 
+import com.recca.flames.random.sources.commons.RandomValue;
 import com.recca.flames.random.sources.commons.Range;
 import com.recca.flames.random.sources.javarandomgenerator.configuration.SecureRandomProperties;
 import com.recca.flames.random.sources.javarandomgenerator.exceptions.SecureRandomException;
@@ -25,7 +26,7 @@ class SecureRandomServiceTest {
         SecureRandomService service = new SecureRandomService(secureRandomProperties);
 
         //when
-        final int result = service.randomize();
+        final RandomValue result = service.randomize();
 
         //then
         assertThat(result).isNotNull();

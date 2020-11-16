@@ -1,5 +1,6 @@
 package com.recca.flames.random.api.service;
 
+import com.recca.flames.random.sources.commons.RandomValue;
 import com.recca.flames.random.sources.javarandomgenerator.SecureRandomService;
 import com.recca.flames.random.sources.randomorg.RandomOrgService;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,14 +35,14 @@ class RandomGeneratorServiceTest {
     @Test
     void shouldReturnRandomSumForDefaultParams() {
         //given
-        given(randomOrgService.randomize()).willReturn(1800);
-        given(secureRandomService.randomize()).willReturn(99);
+        given(randomOrgService.randomize()).willReturn(new RandomValue(1800));
+        given(secureRandomService.randomize()).willReturn(new RandomValue(99));
 
         //when
-        final Integer result = service.generate();
+        final GeneratedRandom result = service.generate();
 
         //then
-        assertThat(result).isEqualTo(1899);
+        assertThat(result).isEqualTo(new RandomValue(1899));
         final InOrder inOrder = inOrder(randomOrgService, secureRandomService);
         inOrder.verify(randomOrgService).randomize();
         inOrder.verify(secureRandomService).randomize();
@@ -51,14 +52,14 @@ class RandomGeneratorServiceTest {
     @Test
     void shouldReturnSumForCustomParams() {
         //given
-        given(randomOrgService.randomize()).willReturn(150);
-        given(secureRandomService.randomize()).willReturn(151);
+        given(randomOrgService.randomize()).willReturn(new RandomValue(150));
+        given(secureRandomService.randomize()).willReturn(new RandomValue(151));
 
         //when
-        final Integer result = service.generate();
+        final GeneratedRandom result = service.generate();
 
         //then
-        assertThat(result).isEqualTo(301);
+        assertThat(result).isEqualTo(new RandomValue(301));
         final InOrder inOrder = inOrder(randomOrgService, secureRandomService);
         inOrder.verify(randomOrgService).randomize();
         inOrder.verify(secureRandomService).randomize();

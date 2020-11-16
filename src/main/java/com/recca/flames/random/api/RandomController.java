@@ -1,5 +1,6 @@
 package com.recca.flames.random.api;
 
+import com.recca.flames.random.api.service.GeneratedRandom;
 import com.recca.flames.random.api.service.IRandomGeneratorService;
 import com.recca.flames.random.api.service.RandomGeneratorService;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public class RandomController {
     @GetMapping
     public ResponseEntity getRandom() {
         LOGGER.info("Get random");
-        final Object result = service.generate();
+        final GeneratedRandom result = service.generate();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

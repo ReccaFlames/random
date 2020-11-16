@@ -1,6 +1,7 @@
 package com.recca.flames.random.api;
 
 import com.recca.flames.random.api.service.RandomGeneratorService;
+import com.recca.flames.random.sources.commons.RandomValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,13 +24,14 @@ class RandomControllerTest {
     @Test
     void shouldReturnSumOfRandomInts() {
         //given
-        given(service.generate()).willReturn(1000);
+        final RandomValue randomValue = new RandomValue(1000);
+        given(service.generate()).willReturn(randomValue);
 
         //when
         final ResponseEntity response = controller.getRandom();
 
         //then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(1000);
+        assertThat(response.getBody()).isEqualTo(randomValue);
     }
 }
