@@ -1,13 +1,16 @@
 package com.recca.flames.random.sources.randomorg;
 
 import com.googlecode.jsonrpc4j.JsonRpcClientException;
+import com.recca.flames.random.sources.commons.Range;
 import com.recca.flames.random.sources.randomorg.client.RandomOrgApi;
+import com.recca.flames.random.sources.randomorg.configuration.RandomOrgProperties;
 import com.recca.flames.random.sources.randomorg.exceptions.RandomOrgApiException;
 import com.recca.flames.random.sources.randomorg.model.GetIntegersResponse;
 import com.recca.flames.random.sources.randomorg.model.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -27,7 +30,9 @@ class RandomOrgServiceTest {
 
     @Mock
     private RandomOrgApi randomOrgApi;
-
+    @Mock
+    private RandomOrgProperties properties;
+    @InjectMocks
     private RandomOrgService service;
 
     @Mock
@@ -37,7 +42,8 @@ class RandomOrgServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new RandomOrgService(API_KEY, MIN, MAX, randomOrgApi);
+        given(properties.getApiKey()).willReturn(API_KEY);
+        given(properties.getRange()).willReturn(new Range(MIN, MAX));
     }
 
     @Test
