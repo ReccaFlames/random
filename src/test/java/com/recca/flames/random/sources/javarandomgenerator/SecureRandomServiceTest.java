@@ -18,7 +18,6 @@ class SecureRandomServiceTest {
     @Mock
     SecureRandomProperties secureRandomProperties;
 
-
     @Test
     void shouldReturnRandomInt() {
         //given
