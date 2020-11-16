@@ -1,5 +1,5 @@
 package com.recca.flames.random.sources.commons;
 
-public interface RandomService<T> {
+public interface GenerateRandomService<T> {
     T randomize();
 }
